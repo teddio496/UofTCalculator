@@ -1,0 +1,72 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grade Calculator</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <script src="{% static 'scripts.js' %}" defer></script>
+</head>
+<body>
+    <div id="sidebar" class="sidebar">
+        <ul>
+            <li><a href="#" onclick="showNewCourseForm()">Add New Course</a></li>
+            {% for course, grades in user_grade_data.items %}
+                <li><a href="#" onclick="showCourse('{{ course }}')">{{ course }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div id="main-content" class="main-content">
+
+        <div id="new-course-form">
+            <h1>Create New Course</h1>
+            <form onsubmit="createNewCourse(); return false;">
+                <input type="text" id="new-course-code" placeholder="Enter Course Code" required>
+                <button type="submit">Create Course</button>
+            </form>
+        </div>
+
+        {% for course, grades in user_grade_data.items %}
+            <div id="course-{{ course }}" class="course-container" style="display: none;">
+                <h1>{{ course }}</h1>
+                <form method="post" action="{% url 'save_request' %}">
+                    {% csrf_token %}
+                    <table border="1">
+                        <thead>
+                            <tr>
+                                <th>Assessment</th>
+                                <th>Weight</th>
+                                <th>Grade</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for grade in grades.0 %}
+                                <tr>
+                                    <td>
+                                        <input type="text" name="name_{{ grade.name }}" value="{{ grade.name }}" oninput="calculateGrade(event, '{{ course }}')">
+                                    </td>
+                                    <td>
+                                        <input type="number" name="weight_{{ grade.name }}" value="{{ grade.weight }}" min="0" max="100" required oninput="calculateGrade(event, '{{ course }}')">
+                                    </td>
+                                    <td>
+                                        <input type="number" name="marks_{{ grade.name }}" value="{{ grade.marks }}" min="0" max="999" required oninput="calculateGrade(event, '{{ course }}')">/
+                                        <input type="number" name="outof_{{ grade.name }}" value="{{ grade.outof }}" min="1" max="999" required oninput="calculateGrade(event, '{{ course }}')">
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    <p>Final grade: <span id="final-grade-{{ course }}">{{ grades.1 }}</span></p>
+                    <button type="button" onclick="addAssessmentRow('{{ course }}')">Add Assessment</button>
+                    <button type="button" onclick="removeLastRow('{{ course }}')">Remove Last Assessment</button>
+                    <button type="submit">Save Grades</button>
+                </form>
+            </div>
+        {% endfor %}
+    </div>
+    
+</body>
+</html>

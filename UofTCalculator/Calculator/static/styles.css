@@ -1,0 +1,61 @@
+
+input[type="text"], 
+input[type="number"] {
+    border-top: 0;
+    border-left: 0;
+    border-right: 0;
+    border-width: 1px;
+    outline: none;
+    background-color: transparent;
+    font-size: 16px;
+}
+input[type="number"] {
+    text-align: center;
+}
+input[type="text"]:focus, 
+input[type="number"]:focus {
+    border-width: 3px;
+}
+th, td {
+    padding: 6px;
+}
+tr {
+    text-align: left;
+}
+/* styles.css */
+body {
+    display: flex;
+}
+
+.sidebar {
+    width: 200px;
+    background-color: #f4f4f4;
+    height: 100vh; /* Full height */
+    overflow: auto; /* Enables scrolling if the window is too small */
+}
+
+.main-content {
+    flex-grow: 1; /* Takes up the remaining width */
+    padding: 20px;
+}
+
+.course-container {
+    display: none; /* Hidden by default */
+}
+
+body {
+    display: flex;
+}
+
+.sidebar {
+    width: 200px;
+    background-color: #f4f4f4;
+    height: 100vh; /* Full height */
+    overflow: auto; /* Enables scrolling if the window is too small */
+    padding: 10px;
+}
+
+.main-content {
+    flex-grow: 1; /* Takes up the remaining width */
+    padding: 20px;
+}
